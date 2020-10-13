@@ -4,6 +4,15 @@ package com.example.demo_nc.model;
 public class User {
     private Integer id;
     private String name;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -21,10 +30,12 @@ public class User {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", password=" + password +
                 ", name='" + name + '\'' +
                 '}';
     }

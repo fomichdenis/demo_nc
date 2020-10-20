@@ -1,16 +1,17 @@
 package com.example.demo_nc.controller;
 
 import com.example.demo_nc.model.User;
+import com.example.demo_nc.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
-    private List<User> users = new ArrayList<>();
+    @Autowired
+    private IUserService userService;
 
     @GetMapping("/hello/text")
     @ResponseBody
@@ -26,39 +27,37 @@ public class MainController {
     @GetMapping("/create/user/{id}/{name}")
     @ResponseBody
     public String createUser(@PathVariable("id") Integer id, @PathVariable("name") String name) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        users.add(user);
-        return user.toString();
+        User user = userService.createUser(id, name);
+        return Optional.ofNullable(user)
+                .map(User::getName)
+                .orElse("NULL");
     }
 
     @GetMapping("/create/user")
     @ResponseBody
     public String createUser2(@RequestParam("id") Integer id, @RequestParam("name") String name) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        users.add(user);
-        return user.toString();
+        User user = userService.createUser(id, name);
+        return Optional.ofNullable(user)
+                .map(User::getName)
+                .orElse("NULL");
     }
 
     @PostMapping("/create/user")
     @ResponseBody
     public String createUser3(@RequestBody User user) {
-        users.add(user);
+        userService.save(user);
         return user.toString();
     }
 
     @GetMapping("/users")
     @ResponseBody
     public String getAllUsers() {
-        return users.toString();
+        return userService.getAllUsers().toString();
     }
 
     @GetMapping("/count")
     @ResponseBody
     public String countUsers() {
-        return String.valueOf(users.size());
+        return String.valueOf(userService.getAllUsers().size());
     }
 }

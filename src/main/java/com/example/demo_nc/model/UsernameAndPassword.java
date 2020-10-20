@@ -1,5 +1,6 @@
 package com.example.demo_nc.model;
 
+//pojo
 public class UsernameAndPassword {
     private String username;
     private String password;

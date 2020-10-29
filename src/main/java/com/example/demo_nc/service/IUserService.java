@@ -7,6 +7,7 @@ import java.util.List;
 public interface IUserService {
     User getUserById(Integer id);
     User save(User user);
+    boolean saveUser(User user);
     void deleteById(Integer id);
 
     List<User> getAllUsers();
